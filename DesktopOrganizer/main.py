@@ -3,7 +3,7 @@
 import os.path
 import shutil
 
-##Bara att lägga till filformat nedan om behovet finns. Värdet för nycklarna är den mapp som filerna ska tillhöra
+# Bara att lägga till filformat nedan om behovet finns. Värdet för nycklarna är den mapp som filerna ska tillhöra
 extension_folders = {
     '.png' : 'Bilder', 
     '.jpeg' : 'Bilder',
@@ -24,7 +24,7 @@ extension_folders = {
 
 
 
-desktop_path = 'C:/Users/skyy6/Desktop'
+desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
 
 misc_path = 'Misc'
 
