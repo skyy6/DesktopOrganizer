@@ -1,9 +1,6 @@
-## Fredrik Jacobsson 2023 ##
-
 import os.path
 import shutil
 
-# Bara att lägga till filformat nedan om behovet finns. Värdet för nycklarna är den mapp som filerna ska tillhöra
 extension_folders = {
     '.png' : 'Bilder', 
     '.jpeg' : 'Bilder',
@@ -11,54 +8,35 @@ extension_folders = {
     '.jpg'  : 'Bilder', 
     '.mp3' : 'Audio',
     '.wav' : 'Audio',
-    '.mp4' : 'Videos',
+    '.mp4' : 'Video',
     '.txt' : 'Textfiler',
     '.doc' : 'Textfiler', 
     '.docx' : 'Textfiler',
     '.zip' : 'Zip',
     '.rar' : 'Zip',
     '.lnk' : 'Shortcuts',
-    '' : 'Folders',
-    'MISC' : 'Misc'
+    '' : 'Folders'
 }
 
+deskPath = 'C:/Users/skyy6/Desktop'
 
+miscPath = 'Misc'
 
-desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
-
-misc_path = 'Misc'
-
-def create_directories():
-    
-    for val in extension_folders.values():
+def OrganizeFiles(file, path):
+    isExist = os.path.exists(deskPath + '/' + path)
+    if not(isExist):
+        os.mkdir(deskPath + '/' + path)
         
-        desktop_folder = desktop_path + '/' + val
-        isExist = os.path.exists(desktop_folder) # Kan hanteras bättre utan att hårdkoda in slash på samtliga ställen
-        if not(isExist):
-            os.mkdir(desktop_folder)
-    
-
-def organize_files(file, path): 
-    
-    source_path =  desktop_path + '/' + file
-    dest_path = desktop_path + '/' + path + '/' + file
-     
-    shutil.move(source_path, dest_path)
+    shutil.move(deskPath + '/' + file, deskPath + '/' + path + '/' + file)
         
-def find_file_extension():    
-    for file_name in os.listdir(desktop_path):
-        dummy_name, extension = os.path.splitext(file_name)
-        
-        if(file_name in extension_folders.values()):
-            continue        
-        
-        if(extension in extension_folders):
-            path = extension_folders[extension]
-            organize_files(file_name, path)
-        
-        else:
-            organize_files(file_name, misc_path)
-            
-          
-create_directories()
-find_file_extension()
+def FindFileExt():    
+    for file in os.listdir(deskPath):
+        if(file not in extension_folders.values() and file != miscPath):
+            filename, extension = os.path.splitext(file)
+            if(extension in extension_folders):
+                path = extension_folders[extension]
+                OrganizeFiles(file, path)
+            else:
+                OrganizeFiles(file, miscPath)
+                     
+FindFileExt()
